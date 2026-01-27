@@ -53,7 +53,7 @@ const SubjectsList = () => {
                 accessorKey: 'description',
                 size: 300,
                 header: () => <p className="column-title">Description</p>,
-                cell: ({ getValue }) => <span className="truncate line-clamp-2">{getValue<string>()}</span>
+                cell: ({ getValue }) => <span className="line-clamp-2">{getValue<string>()}</span>
             }
 
         ], []),
@@ -87,14 +87,15 @@ const SubjectsList = () => {
                     </div>
 
                     <div className="flex gap-2 w-full sm:w-auto">
-                        <Select value={selectedDepartment} onChange={setSelectedDepartment}>
+                        <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
                             <SelectTrigger>
-                                <SelectValue placeholder="Filter by department" /> </SelectTrigger>
+                                <SelectValue placeholder="Filter by department" />
+                            </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="all">All Departments</SelectItem>
                                 {DEPARTMENT_OPTIONS.map(department => (
-                                    <SelectItem key={department.value} value={department.label}>
-                                        {department.value}
+                                    <SelectItem key={department.value} value={department.value}>
+                                        {department.label}
                                     </SelectItem>
                                 ))}
                             </SelectContent>
