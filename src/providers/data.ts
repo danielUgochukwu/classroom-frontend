@@ -1,6 +1,6 @@
-import {createDataProvider, CreateDataProviderOptions} from "@refinedev/rest";
-import {BACKEND_BASE_URL} from "@/constans";
-import {ListResponse} from "@/types";
+import { createDataProvider, CreateDataProviderOptions } from "@refinedev/rest";
+import { BACKEND_BASE_URL } from "@/constans";
+import { ListResponse } from "@/types";
 
 const options: CreateDataProviderOptions = {
   getList: {
@@ -10,7 +10,7 @@ const options: CreateDataProviderOptions = {
       const page = pagination?.currentPage ?? 1;
       const pageSize = pagination?.pageSize ?? 10;
 
-      const params: Record<string, string|number> = { page, limit: pageSize };
+      const params: Record<string, string | number> = { page, limit: pageSize };
 
       filters?.forEach((filter) => {
         const field = 'field' in filter ? filter.field : '';
@@ -27,13 +27,13 @@ const options: CreateDataProviderOptions = {
     },
 
     mapResponse: async (response) => {
-      const payload: ListResponse = await response.json()
+      const payload: ListResponse = await response.clone().json();
 
       return payload.data ?? [];
     },
 
     getTotalCount: async (response) => {
-      const payload: ListResponse = await response.json();
+      const payload: ListResponse = await response.clone().json();
 
       return payload.pagination?.total ?? payload.data?.length ?? 0;
     }

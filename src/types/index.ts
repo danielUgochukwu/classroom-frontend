@@ -26,16 +26,17 @@ export type GetOneResponse<T = unknown> = {
 };
 
 declare global {
-    interface CloudinaryUploadWidgetResults {
-        event: string;
-        info: {
-            secure_url: string;
-            public_id: string;
-            delete_token?: string;
-            resource_type: string;
-            original_filename: string;
-        };
+    interface CloudinaryUploadWidgetInfo {
+        secure_url: string;
+        public_id: string;
+        delete_token?: string;
+        resource_type: string;
+        original_filename: string;
     }
+
+    type CloudinaryUploadWidgetResults =
+        | { event: "success"; info: CloudinaryUploadWidgetInfo }
+        | { event: string; info?: unknown };
 
     interface CloudinaryWidget {
         open: () => void;
