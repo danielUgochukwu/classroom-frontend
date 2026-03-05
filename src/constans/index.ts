@@ -55,25 +55,71 @@ export const ALLOWED_TYPES = [
     "image/webp",
 ];
 
-const getEnvVar = (key: string): string => {
-    const value = import.meta.env[key];
-    if (!value) {
-        throw new Error(`Missing environment variable: ${key}`);
+type EnvValidator = (value: string, key: string) => string;
+
+const validateHttpUrl: EnvValidator = (value, key) => {
+    try {
+        const parsedUrl = new URL(value);
+        if (parsedUrl.protocol !== "http:" && parsedUrl.protocol !== "https:") {
+            throw new Error(`${key} must start with http:// or https://`);
+        }
+    } catch {
+        throw new Error(`${key} must be a valid URL`);
     }
+
     return value;
 };
 
-export const CLOUDINARY_UPLOAD_URL = getEnvVar("VITE_CLOUDINARY_UPLOAD_URL");
-export const CLOUDINARY_CLOUD_NAME = getEnvVar("VITE_CLOUDINARY_CLOUD_NAME");
-export const BACKEND_BASE_URL = getEnvVar("VITE_BACKEND_BASE_URL");
+const validateKeyLikeValue: EnvValidator = (value, key) => {
+    const isValid = /^[a-zA-Z0-9_-]+$/.test(value);
+    if (!isValid) {
+        throw new Error(
+            `${key} must contain only letters, numbers, underscores, or hyphens`,
+        );
+    }
 
-export const BASE_URL = getEnvVar("VITE_API_URL");
-export const ACCESS_TOKEN_KEY = getEnvVar("VITE_ACCESS_TOKEN_KEY");
-export const REFRESH_TOKEN_KEY = getEnvVar("VITE_REFRESH_TOKEN_KEY");
+    return value;
+};
+
+const getEnvVar = (key: string, validate?: EnvValidator): string => {
+    const value = import.meta.env[key];
+    if (typeof value !== "string" || value.trim().length === 0) {
+        throw new Error(`Missing environment variable: ${key}`);
+    }
+
+    const cleanedValue = value.trim();
+    return validate ? validate(cleanedValue, key) : cleanedValue;
+};
+
+export const CLOUDINARY_UPLOAD_URL = getEnvVar(
+    "VITE_CLOUDINARY_UPLOAD_URL",
+    validateHttpUrl,
+);
+export const CLOUDINARY_CLOUD_NAME = getEnvVar(
+    "VITE_CLOUDINARY_CLOUD_NAME",
+    validateKeyLikeValue,
+);
+export const BACKEND_BASE_URL = getEnvVar(
+    "VITE_BACKEND_BASE_URL",
+    validateHttpUrl,
+);
+
+export const BASE_URL = getEnvVar("VITE_API_URL", validateHttpUrl);
+export const ACCESS_TOKEN_KEY = getEnvVar(
+    "VITE_ACCESS_TOKEN_KEY",
+    validateKeyLikeValue,
+);
+export const REFRESH_TOKEN_KEY = getEnvVar(
+    "VITE_REFRESH_TOKEN_KEY",
+    validateKeyLikeValue,
+);
 
 export const REFRESH_TOKEN_URL = `${BASE_URL}/refresh-token`;
 
-export const CLOUDINARY_UPLOAD_PRESET = getEnvVar("VITE_CLOUDINARY_UPLOAD_PRESET");
+export const CLOUDINARY_UPLOAD_PRESET = getEnvVar(
+    "VITE_CLOUDINARY_UPLOAD_PRESET",
+    validateKeyLikeValue,
+);
 
 export const teachers = [
     {
