@@ -58,9 +58,9 @@
   --sidebar-accent-foreground: oklch(0.6324 0.1715 149.9085);
   --sidebar-border: oklch(0.9437 0.0107 160.7434);
   --sidebar-ring: oklch(0.7619 0.2087 149.6403);
-  --font-sans: Inter, -apple-system, sans-serif;
-  --font-serif: Georgia, serif;
-  --font-mono: JetBrains Mono, monospace;
+  --font-sans: "Inter", -apple-system, sans-serif;
+  --font-serif: "Georgia", serif;
+  --font-mono: "JetBrains Mono", monospace;
   --radius: 0.45rem;
   --shadow-x: 0px;
   --shadow-y: 10px;

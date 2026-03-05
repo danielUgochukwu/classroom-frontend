@@ -56,11 +56,12 @@ const Create = () => {
     handleSubmit,
     formState: { isSubmitting, errors },
     control,
+    refineCore: { onFinish },
   } = form;
 
   const onSubmit = async (values: ClassFormValues) => {
     try {
-      console.log(values);
+      await onFinish(values);
     } catch (error) {
       console.error("Error creating class:", error);
     }
@@ -148,14 +149,19 @@ const Create = () => {
                         <UploadWidget
                           value={
                             field.value
-                              ? { url: field.value, publicId: bannerPublicId ?? "" }
+                              ? {
+                                  url: field.value,
+                                  publicId: bannerPublicId ?? "",
+                                }
                               : null
                           }
-                          onChange={(file) => setBannerImage(file, field.onChange)}
+                          onChange={(file) =>
+                            setBannerImage(file, field.onChange)
+                          }
                         />
                       </FormControl>
                       <FormMessage />
-                      {errors.bannerCldPubId?.message && errors.bannerUrl && (
+                      {errors.bannerCldPubId?.message && (
                         <p className="text-destructive text-sm">
                           {String(errors.bannerCldPubId.message)}
                         </p>

@@ -1,5 +1,5 @@
 import { createDataProvider, CreateDataProviderOptions } from "@refinedev/rest";
-import { BACKEND_BASE_URL } from "@/constans";
+import { BACKEND_BASE_URL } from "@/constants";
 import { ListResponse } from "@/types";
 
 const options: CreateDataProviderOptions = {
@@ -13,15 +13,15 @@ const options: CreateDataProviderOptions = {
       const params: Record<string, string | number> = { page, limit: pageSize };
 
       filters?.forEach((filter) => {
-        const field = 'field' in filter ? filter.field : '';
+        const field = "field" in filter ? filter.field : "";
 
         const value = String(filter.value);
 
-        if (resource === 'subjects') {
-          if (field === 'department') params.department = value;
-          if (field === 'name' || field === 'code') params.search = value;
+        if (resource === "subjects") {
+          if (field === "department") params.department = value;
+          if (field === "name" || field === "code") params.search = value;
         }
-      })
+      });
 
       return params;
     },
@@ -36,9 +36,9 @@ const options: CreateDataProviderOptions = {
       const payload: ListResponse = await response.clone().json();
 
       return payload.pagination?.total ?? payload.data?.length ?? 0;
-    }
-  }
-}
+    },
+  },
+};
 
 const { dataProvider } = createDataProvider(BACKEND_BASE_URL, options);
 
