@@ -11,12 +11,19 @@ import "./App.css";
 import { Toaster } from "./components/refine-ui/notification/toaster";
 import { useNotificationProvider } from "./components/refine-ui/notification/use-notification-provider";
 import { ThemeProvider } from "./components/refine-ui/theme/theme-provider";
-import { dataProvider } from "./providers/data";
-import Dashboard from "./pages/Dashboard";
-import SubjectsList from "./pages/subjects/List";
-import { BookOpen, Home } from "lucide-react";
-import { Layout } from "./components/refine-ui/layout/layout";
-import SubjectsCreate from "./pages/subjects/Create";
+import { Layout } from "@/components/refine-ui/layout/layout";
+
+import { BookOpen, GraduationCap, Home } from "lucide-react";
+
+import Dashboard from "@/pages/Dashboard";
+
+import SubjectsList from "@/pages/subjects/list";
+import SubjectsCreate from "@/pages/subjects/create";
+
+import ClassesList from "@/pages/classes/list";
+import ClassesCreate from "@/pages/classes/create";
+
+import { dataProvider } from "@/providers/data";
 
 function App() {
   return (
@@ -35,24 +42,44 @@ function App() {
               }}
               resources={[
                 {
-                  name: 'dashboard', list: '/', meta: { label: 'Home', icon: <Home /> }
+                  name: "dashboard",
+                  list: "/",
+                  meta: { label: "Home", icon: <Home /> },
                 },
                 {
-                  name: 'subjects', list: '/subjects', create: '/subjects/create', meta: { label: 'Subjects', icon: <BookOpen /> }
-                }
+                  name: "subjects",
+                  list: "/subjects",
+                  create: "/subjects/create",
+                  meta: { label: "Subjects", icon: <BookOpen /> },
+                },
+                {
+                  name: "classes",
+                  list: "/classes",
+                  create: "/classes/create",
+                  meta: { label: "Classes", icon: <GraduationCap /> },
+                },
               ]}
             >
               <Routes>
-                <Route element={
-                  <Layout>
-                    <Outlet />
-                  </Layout>}>
+                <Route
+                  element={
+                    <Layout>
+                      <Outlet />
+                    </Layout>
+                  }
+                >
                   <Route path="/" element={<Dashboard />} />
 
                   <Route path="subjects">
                     <Route index element={<SubjectsList />} />
                     <Route path="create" element={<SubjectsCreate />} />
                   </Route>
+
+                  <Route path="classes">
+                    <Route index element={<ClassesList />} />
+                    <Route path="create" element={<ClassesCreate />} />
+                  </Route>
+
                 </Route>
               </Routes>
               <Toaster />
